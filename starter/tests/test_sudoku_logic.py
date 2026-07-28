@@ -1,4 +1,4 @@
-import importlib
+import pytest
 
 import sudoku_logic
 
@@ -45,3 +45,15 @@ def test_generate_puzzle_returns_puzzle_and_solution():
     assert all(len(row) == sudoku_logic.SIZE for row in puzzle)
     assert all(len(row) == sudoku_logic.SIZE for row in solution)
     assert puzzle != solution
+
+
+@pytest.mark.parametrize(
+    ("difficulty", "expected_clues"),
+    [("easy", 40), ("medium", 35), ("hard", 28)],
+)
+def test_generate_puzzle_respects_difficulty_clue_count(difficulty, expected_clues):
+    puzzle, _ = sudoku_logic.generate_puzzle(difficulty=difficulty)
+
+    clue_count = sum(cell != sudoku_logic.EMPTY for row in puzzle for cell in row)
+
+    assert clue_count == expected_clues

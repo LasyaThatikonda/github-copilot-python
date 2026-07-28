@@ -3,6 +3,13 @@ import random
 
 SIZE = 9
 EMPTY = 0
+DEFAULT_DIFFICULTY = 'medium'
+DIFFICULTY_SETTINGS = {
+    'easy': 40,
+    'medium': 35,
+    'hard': 28,
+}
+
 
 def deep_copy(board):
     return copy.deepcopy(board)
@@ -48,10 +55,21 @@ def remove_cells(board, clues):
             board[row][col] = EMPTY
             attempts -= 1
 
-def generate_puzzle(clues=35):
+def get_clue_count(difficulty=None, clues=None):
+    if clues is not None:
+        return clues
+
+    normalized = (difficulty or DEFAULT_DIFFICULTY).strip().lower()
+    if normalized in DIFFICULTY_SETTINGS:
+        return DIFFICULTY_SETTINGS[normalized]
+    return DIFFICULTY_SETTINGS[DEFAULT_DIFFICULTY]
+
+
+def generate_puzzle(clues=None, difficulty=None):
+    clue_count = get_clue_count(difficulty=difficulty, clues=clues)
     board = create_empty_board()
     fill_board(board)
     solution = deep_copy(board)
-    remove_cells(board, clues)
+    remove_cells(board, clue_count)
     puzzle = deep_copy(board)
     return puzzle, solution

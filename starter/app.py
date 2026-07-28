@@ -9,14 +9,29 @@ CURRENT = {
     'solution': None
 }
 
+
+def normalize_difficulty(value):
+    if not value:
+        return sudoku_logic.DEFAULT_DIFFICULTY
+
+    normalized = value.strip().lower()
+    if normalized in sudoku_logic.DIFFICULTY_SETTINGS:
+        return normalized
+    return sudoku_logic.DEFAULT_DIFFICULTY
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/new')
 def new_game():
-    clues = int(request.args.get('clues', 35))
-    puzzle, solution = sudoku_logic.generate_puzzle(clues)
+    difficulty = normalize_difficulty(request.args.get('difficulty'))
+    clues_value = request.args.get('clues')
+    if clues_value is None:
+        puzzle, solution = sudoku_logic.generate_puzzle(difficulty=difficulty)
+    else:
+        puzzle, solution = sudoku_logic.generate_puzzle(clues=int(clues_value), difficulty=difficulty)
+
     CURRENT['puzzle'] = puzzle
     CURRENT['solution'] = solution
     return jsonify({'puzzle': puzzle})
