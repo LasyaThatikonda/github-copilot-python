@@ -31,6 +31,15 @@ def is_safe(board, row, col, num):
                 return False
     return True
 
+
+def find_incorrect_cells(board, solution):
+    incorrect = []
+    for i in range(SIZE):
+        for j in range(SIZE):
+            if board[i][j] != solution[i][j]:
+                incorrect.append([i, j])
+    return incorrect
+
 def fill_board(board):
     for row in range(SIZE):
         for col in range(SIZE):
@@ -46,14 +55,54 @@ def fill_board(board):
                 return False
     return True
 
+def find_empty_cell(board):
+    for row in range(SIZE):
+        for col in range(SIZE):
+            if board[row][col] == EMPTY:
+                return row, col
+    return None, None
+
+
+def count_solutions(board, limit=2):
+    def backtrack(current_board):
+        nonlocal solution_count
+        if solution_count >= limit:
+            return
+
+        row, col = find_empty_cell(current_board)
+        if row is None:
+            solution_count += 1
+            return
+
+        for num in range(1, SIZE + 1):
+            if is_safe(current_board, row, col, num):
+                current_board[row][col] = num
+                backtrack(current_board)
+                current_board[row][col] = EMPTY
+                if solution_count >= limit:
+                    return
+
+    solution_count = 0
+    backtrack(board)
+    return solution_count
+
+
 def remove_cells(board, clues):
-    attempts = SIZE * SIZE - clues
-    while attempts > 0:
-        row = random.randrange(SIZE)
-        col = random.randrange(SIZE)
-        if board[row][col] != EMPTY:
-            board[row][col] = EMPTY
-            attempts -= 1
+    target_clues = clues
+    positions = [(row, col) for row in range(SIZE) for col in range(SIZE)]
+    random.shuffle(positions)
+
+    for row, col in positions:
+        if sum(cell != EMPTY for row_values in board for cell in row_values) <= target_clues:
+            break
+        if board[row][col] == EMPTY:
+            continue
+
+        original_value = board[row][col]
+        board[row][col] = EMPTY
+        if count_solutions(deep_copy(board)) != 1:
+            board[row][col] = original_value
+
 
 def get_clue_count(difficulty=None, clues=None):
     if clues is not None:

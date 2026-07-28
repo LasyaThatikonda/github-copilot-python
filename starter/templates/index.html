@@ -17,8 +17,15 @@
     </select>
     <button id="new-game">New Game</button>
     <button id="check-solution">Check Solution</button>
-    <span id="message"></span>
+    <button id="hint-button">Hint</button>
+    <button id="theme-toggle" type="button" aria-pressed="false">Dark Mode</button>
+    <span id="timer">00:00</span>
+    <span id="message" class="message"></span>
   </div>
+  <section class="leaderboard" aria-labelledby="leaderboard-title">
+    <h2 id="leaderboard-title">Top 10 Leaderboard</h2>
+    <ol id="leaderboard-list"></ol>
+  </section>
   <script src="/static/main.js"></script>
 </body>
 </html>

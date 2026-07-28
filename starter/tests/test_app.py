@@ -30,8 +30,11 @@ def test_new_game_returns_puzzle(client):
 
     payload = response.get_json()
     assert 'puzzle' in payload
+    assert 'solution' in payload
     assert isinstance(payload['puzzle'], list)
+    assert isinstance(payload['solution'], list)
     assert len(payload['puzzle']) == 9
+    assert len(payload['solution']) == 9
 
 
 def test_check_solution_requires_active_game(client):
@@ -51,3 +54,18 @@ def test_check_solution_reports_incorrect_cells(client):
     payload = response.get_json()
     assert 'incorrect' in payload
     assert isinstance(payload['incorrect'], list)
+
+
+def test_hint_reveals_one_empty_cell(client):
+    client.get('/new?clues=35')
+
+    response = client.get('/hint')
+
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert 'row' in payload
+    assert 'col' in payload
+    assert 'value' in payload
+
+    board = flask_app.CURRENT['puzzle']
+    assert board[payload['row']][payload['col']] == payload['value']

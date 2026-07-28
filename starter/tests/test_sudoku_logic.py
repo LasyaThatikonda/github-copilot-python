@@ -57,3 +57,24 @@ def test_generate_puzzle_respects_difficulty_clue_count(difficulty, expected_clu
     clue_count = sum(cell != sudoku_logic.EMPTY for row in puzzle for cell in row)
 
     assert clue_count == expected_clues
+
+
+def test_count_solutions_detects_multiple_solutions():
+    board = sudoku_logic.create_empty_board()
+
+    assert sudoku_logic.count_solutions(board) > 1
+
+
+def test_generate_puzzle_returns_a_uniquely_solved_puzzle():
+    puzzle, _ = sudoku_logic.generate_puzzle(clues=35)
+
+    assert sudoku_logic.count_solutions(puzzle) == 1
+
+
+def test_find_incorrect_cells_detects_mismatches():
+    board = [[1] * sudoku_logic.SIZE for _ in range(sudoku_logic.SIZE)]
+    solution = [[2] * sudoku_logic.SIZE for _ in range(sudoku_logic.SIZE)]
+
+    assert sudoku_logic.find_incorrect_cells(board, solution) == [
+        [i, j] for i in range(sudoku_logic.SIZE) for j in range(sudoku_logic.SIZE)
+    ]
