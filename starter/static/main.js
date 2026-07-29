@@ -307,6 +307,14 @@ async function checkSolution() {
   }
   const incorrect = new Set(data.incorrect.map(x => x[0] * SIZE + x[1]));
   applyCheckResults(incorrect);
+
+
+  // Move cursor to the first incorrect editable cell
+  if (incorrect.size > 0) {
+    const firstIncorrect = [...incorrect][0];
+    inputs[firstIncorrect].focus();
+ }
+
   if (incorrect.size === 0) {
     stopTimer();
     showCompletionMessage();

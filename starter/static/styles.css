@@ -33,7 +33,7 @@ body.dark-mode {
 
     --board-border: #60a5fa;
 
-    --cell-border: #6b7280;
+    --cell-border: #a5b4c7;
 
     /* Slightly lighter board */
     --cell-bg: #4b5563;
@@ -291,15 +291,27 @@ button:hover {
 
 
 body.dark-mode {
-    --cell-bg: #5b6472;
+    --cell-bg:#3b4556;
 }
 
 body.dark-mode .sudoku-cell {
     color: #ffffff;
     font-weight: 600;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
 }
 
 body.dark-mode .sudoku-cell.prefilled {
     color: #ffffff;
     font-weight: 700;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+
+/* Improve contrast for light 3×3 blocks in Dark Mode */
+body.dark-mode .sudoku-row:nth-child(-n+3) .sudoku-cell:nth-child(-n+3),
+body.dark-mode .sudoku-row:nth-child(-n+3) .sudoku-cell:nth-child(n+7),
+body.dark-mode .sudoku-row:nth-child(n+4):nth-child(-n+6) .sudoku-cell:nth-child(n+4):nth-child(-n+6),
+body.dark-mode .sudoku-row:nth-child(n+7) .sudoku-cell:nth-child(-n+3),
+body.dark-mode .sudoku-row:nth-child(n+7) .sudoku-cell:nth-child(n+7) {
+    background-color: #8b95a5;
 }

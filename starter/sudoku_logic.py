@@ -34,10 +34,17 @@ def is_safe(board, row, col, num):
 
 def find_incorrect_cells(board, solution):
     incorrect = []
+
     for i in range(SIZE):
         for j in range(SIZE):
+            # Ignore empty cells
+            if board[i][j] == EMPTY:
+                continue
+
+            # Highlight only incorrect user-entered values
             if board[i][j] != solution[i][j]:
                 incorrect.append([i, j])
+
     return incorrect
 
 def fill_board(board):
