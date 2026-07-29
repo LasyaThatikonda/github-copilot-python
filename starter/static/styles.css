@@ -27,27 +27,40 @@
 body.dark-mode {
     --page-bg: #111827;
     --page-text: #f3f4f6;
+
     --surface-bg: #1f2937;
     --surface-border: #374151;
-    --surface-shadow: rgba(0, 0, 0, 0.35);
-    --board-border: #7dd3fc;
-    --cell-border: #64748b;
-    --cell-bg: #374151;
-    --cell-focus-bg: #1d4ed8;
-    --cell-prefilled-bg: #4b5563;
-    --cell-prefilled-text: #f9fafb;
-    --cell-text: #f9fafb;
+
+    --board-border: #60a5fa;
+
+    --cell-border: #6b7280;
+
+    /* Slightly lighter board */
+    --cell-bg: #4b5563;
+
+    /* Bright focus */
+    --cell-focus-bg: #2563eb;
+
+    /* Good contrast */
+    --cell-text: #ffffff;
+    --cell-prefilled-text: #ffffff;
+
     --button-bg: #2563eb;
     --button-hover-bg: #1d4ed8;
-    --button-text: #f9fafb;
+    --button-text: #ffffff;
+
     --select-bg: #374151;
-    --select-border: #64748b;
-    --select-text: #f9fafb;
-    --timer-color: #f3f4f6;
+    --select-border: #6b7280;
+    --select-text: #ffffff;
+
+    --timer-color: #ffffff;
+
     --message-color: #fca5a5;
     --message-success-color: #86efac;
-    --leaderboard-item-color: #e5e7eb;
-    --incorrect-bg: #7f1d1d;
+
+    --leaderboard-item-color: #f3f4f6;
+
+    --incorrect-bg: #b91c1c;
 }
 
 body {
@@ -232,4 +245,61 @@ button:hover {
 #leaderboard-list li {
     margin: 8px 0;
     color: var(--leaderboard-item-color);
+}
+
+@media (max-width: 768px) {
+    #sudoku-board {
+        transform: scale(0.8);
+        transform-origin: top center;
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 8px;
+        width: 95%;
+    }
+
+    .controls button,
+    .controls select {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .leaderboard {
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #sudoku-board {
+        transform: scale(0.65);
+    }
+
+    .sudoku-cell {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+
+
+body.dark-mode {
+    --cell-bg: #5b6472;
+}
+
+body.dark-mode .sudoku-cell {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+body.dark-mode .sudoku-cell.prefilled {
+    color: #ffffff;
+    font-weight: 700;
 }
