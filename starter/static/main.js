@@ -154,7 +154,16 @@ function clearCellState() {
   for (let idx = 0; idx < inputs.length; idx++) {
     const inp = inputs[idx];
     if (inp.disabled) continue;
-    inp.className = 'sudoku-cell';
+    
+    const row = Number(inp.dataset.row);
+    const col = Number(inp.dataset.col);
+
+    const boxIndex = (Math.floor(row / 3) + Math.floor(col / 3)) % 2;
+
+    inp.className =
+        boxIndex === 0
+            ? 'sudoku-cell box-light'
+            : 'sudoku-cell box-dark';
   }
 }
 
@@ -183,11 +192,19 @@ function applyCheckResults(incorrectIndexes) {
     const inp = inputs[idx];
     if (inp.disabled) continue;
 
+    const row = Number(inp.dataset.row);
+    const col = Number(inp.dataset.col);
+
+    const boxIndex = (Math.floor(row / 3) + Math.floor(col / 3)) % 2;
+
+    inp.className =
+        boxIndex === 0
+          ? 'sudoku-cell box-light'
+          : 'sudoku-cell box-dark';
+
     if (incorrectIndexes.has(idx)) {
-      inp.className = 'sudoku-cell incorrect';
-    } else {
-      inp.className = 'sudoku-cell';
-    }
+      inp.className += ' incorrect';
+   }
   }
 }
 
@@ -201,7 +218,12 @@ function createBoardElement() {
       const input = document.createElement('input');
       input.type = 'text';
       input.maxLength = 1;
-      input.className = 'sudoku-cell';
+      const boxIndex = (Math.floor(i / 3) + Math.floor(j / 3)) % 2;
+
+      input.className =
+        boxIndex === 0
+          ? 'sudoku-cell box-light'
+          : 'sudoku-cell box-dark';
       input.dataset.row = i;
       input.dataset.col = j;
       input.addEventListener('input', (e) => {
@@ -229,11 +251,23 @@ function renderPuzzle(puz) {
       if (val !== 0) {
         inp.value = val;
         inp.disabled = true;
-        inp.className = 'sudoku-cell prefilled';
+        const boxIndex = (Math.floor(i / 3) + Math.floor(j / 3)) % 2;
+
+        inp.className =
+          boxIndex === 0
+            ? 'sudoku-cell box-light prefilled'
+            : 'sudoku-cell box-dark prefilled';
       } else {
-        inp.value = '';
-        inp.disabled = false;
-      }
+              inp.value = '';
+              inp.disabled = false;
+
+              const boxIndex = (Math.floor(i / 3) + Math.floor(j / 3)) % 2;
+
+              inp.className =
+                boxIndex === 0
+                  ? 'sudoku-cell box-light'
+                  : 'sudoku-cell box-dark';
+}
     }
   }
 }

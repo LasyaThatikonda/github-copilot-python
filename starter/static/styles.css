@@ -84,20 +84,37 @@ h1 {
     text-align: center;
     font-size: 20px;
     outline: none;
-    background: var(--cell-bg);
+    background-color: var(--cell-bg);
     color: var(--cell-text);
     transition: background 0.2s;
 }
+
+
+
+
+
+/* Alternate 3×3 block colors */
+.sudoku-row:nth-child(-n+3) .sudoku-cell:nth-child(-n+3),
+.sudoku-row:nth-child(-n+3) .sudoku-cell:nth-child(n+7),
+.sudoku-row:nth-child(n+4):nth-child(-n+6) .sudoku-cell:nth-child(n+4):nth-child(-n+6),
+.sudoku-row:nth-child(n+7) .sudoku-cell:nth-child(-n+3),
+.sudoku-row:nth-child(n+7) .sudoku-cell:nth-child(n+7) {
+    background-color: #f0f0f0;
+}
+
+
+
 
 .sudoku-cell:focus {
     background: var(--cell-focus-bg);
 }
 
 .sudoku-cell.prefilled {
-    background: var(--cell-prefilled-bg);
     font-weight: bold;
     color: var(--cell-prefilled-text);
 }
+
+
 
 .sudoku-cell.incorrect {
     background: var(--incorrect-bg);
